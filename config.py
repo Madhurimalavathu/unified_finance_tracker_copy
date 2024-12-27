@@ -1,19 +1,21 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+import mysql.connector
 
 app = Flask(__name__)
 
 # Database Configuration
 DB_HOST = "localhost"
 DB_USER = "root"
-DB_PASSWORD = "2003"
+DB_PASSWORD = "Krishna1919@"
 DB_NAME = "db1"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = "your_secret_key"  # For session and flash messages
+app.secret_key = "your_secret_key"
 
-# Initialize extensions
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+def get_db_connection():
+    """Establish and return a database connection."""
+    return mysql.connector.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME
+    )
